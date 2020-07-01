@@ -441,3 +441,24 @@ fig2.update_layout(updatemenus=updatemenus,
                    height=250)
 fig2.update(layout=dict(title=dict(x=0.505, y=.97),
                         xaxis=dict(fixedrange=True)))
+
+mapa = px.scatter_mapbox(dadosrsd_bairro,
+                         lat='lat',
+                         lon='long',
+                         hover_data=['Número de casos',
+                                     'Número de mortes',
+                                     'Número de curados'],
+                         hover_name='Bairro',
+                         zoom=11.5,
+                         size='Número de casos',
+                         size_max=40,
+                         height=250,
+                         center=dict(lat=-21.6222,
+                                     lon=-49.0786))
+
+mapa.data[0].hovertemplate='<b>%{hovertext}</b><br><br>Número de casos=%{customdata[0]}<br>Número de mortes=%{customdata[1]}<br>Número de curados=%{customdata[2]}<extra></extra>'
+
+mapa.update_layout(mapbox_style='dark',
+                   mapbox_accesstoken='pk.eyJ1IjoibWF0aGV1c2dhbGhhbm8iLCJhIjoiY2s5YWozZmZyMjQyazNkcGdqZXlzajFraSJ9.mQwhayrKhADgig-Y1MKwSA',
+                   margin={"r":0,"t":0,"l":0,"b":0},
+                   coloraxis_showscale=False)
