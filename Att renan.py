@@ -6,7 +6,7 @@ import numpy as np
 from datetime import date
 
 
-dadoscorona = pd.DataFrame(pd.read_csv('data/Pacientes_compilados_csv_BORB.csv',
+dadoscorona = pd.DataFrame(pd.read_csv('Pacientes_compilados_csv_BORB.csv',
                                        sep=';',
                                        encoding='ISO 8859-1',
                                        index_col=0))
@@ -58,9 +58,7 @@ for i in range(len(dadosrsd['Data de confirmação(testes)'])):
     if dadosrsd.loc[i, 'Data de confirmação(testes)'] == "FILL_VALUE":
         dadosrsd.loc[i, 'Data de confirmação(testes)'] = dadosrsd.loc[i-1, 'Data de confirmação(testes)']
         
-PCR = dadosrsd[dadosrsd['Teste de Confirmação'] == 'PCR']
-TRS = dadosrsd[dadosrsd['Teste de Confirmação'].str.contains('Teste', case=False)]
-Teste_desconhecido = dadosrsd[(pd.isnull(dadosrsd['Teste de Confirmação'])) | (dadosrsd['Teste de Confirmação'].str.contains('infor', case=False))]
+
 
 df_teste = pd.DataFrame(
     dadosrsd.groupby(
@@ -101,11 +99,6 @@ for x in range(len(df_mortes)):
     else:
         df_mortes['Número de mortes'][x] = df_mortes['Óbito(data)'][x] + df_mortes['Número de mortes'][x-1]
 
-resende_RTPCR = int(df_PCR["Número de casos"].iloc[-1])                             ####Aqui vai dar erro, talvez int(df_teste["Número de casos"].iloc[-1]) resolva
-resende_teste_rapido = int(df_TR["Número de casos"].iloc[-1])
-resende_t_unknown = int(df_teste_desconhecido["Número de casos"].iloc[-1])
-resende_deaths = int(df_mortes["Número de mortes"].iloc[-1])
-CURA = dadoscorona[dadoscorona['Status']=='Curado'].count()["Status"]
 
 # Age Group - Figure
 df_masculino= dadosrsd[dadosrsd['Sexo']=='M'].fillna(0)
